@@ -47,3 +47,9 @@ If your function works properly, then when you feed it the string:
 ```
 
 ### My approach:
+
+* Script "scripts/xor-hex.py" taking two cmd line args as base64 strings and returning the base64 xor of the two values
+* Addition of a method to the stringmanip module;
+    * xorBuffer()
+* A suite of tests for this method
+
