@@ -8,7 +8,6 @@ def main():
     parser = optparse.OptionParser()
 
     parser.add_option(
-        "-h",
         "--hexstr",
         action="store",
         type="string",

@@ -4,8 +4,8 @@ import re
 
 def hexStringToByteArray(hex_string):
     # convert string to bytearray of character values
-
-    # 
+    print("aaaahhh!!!!")
+    #
 
     #
 
