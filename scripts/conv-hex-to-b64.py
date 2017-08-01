@@ -3,6 +3,7 @@
 import optparse
 from cryptochallenge import stringmanip
 
+
 def main():
     parser = optparse.OptionParser()
 
