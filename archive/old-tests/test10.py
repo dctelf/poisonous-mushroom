@@ -4,9 +4,9 @@
 from cryptography.hazmat.primitives.ciphers import Cipher, modes, algorithms
 from cryptography.hazmat.backends import default_backend  # http://cryptography.io
 
-from modules import hex_to_b64
-from modules import myAES
-from modules import padding
+from cryptochallenge import hex_to_b64
+from cryptochallenge import myAES
+from cryptochallenge import padding
 import os
 import hexdump
 

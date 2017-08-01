@@ -1,7 +1,7 @@
 #!/usr/bin/python
 
 import optparse
-from modules import stringmanip
+from cryptochallenge import stringmanip
 
 def main():
     parser = optparse.OptionParser()
@@ -16,7 +16,10 @@ def main():
     )
     options, args = parser.parse_args()
 
-    print(stringmanip.hexToBase64(options.input_hex))
+    if(stringmanip.isHexString(options.input_hex)):
+        print(stringmanip.hexToBase64(options.input_hex))
+    else:
+        print("input is not hex")
 
 if __name__ == '__main__':
     main()

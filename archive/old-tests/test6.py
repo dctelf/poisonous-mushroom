@@ -1,6 +1,6 @@
 #!/usr/bin/python
 
-from modules import text_analysis
+from cryptochallenge import text_analysis
 import base64
 import hexdump
 import pprint

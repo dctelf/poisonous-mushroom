@@ -1,8 +1,8 @@
 #!/usr/bin/python
 
-from modules import xor
-from modules import hex_to_b64
-from modules import text_analysis
+from cryptochallenge import xor
+from cryptochallenge import hex_to_b64
+from cryptochallenge import text_analysis
 import hexdump
 import codecs
 import sys

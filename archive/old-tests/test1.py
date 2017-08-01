@@ -1,7 +1,7 @@
 #/usr/bin/python3
 """ cryptopals.org set 1 challenge 1 test.py """
 
-from modules import hex_to_b64
+from cryptochallenge import hex_to_b64
 
 
 # this is a string represntation of a hex value

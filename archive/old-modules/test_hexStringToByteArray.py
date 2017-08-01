@@ -1,5 +1,5 @@
 from unittest import TestCase
-from modules import hex_to_b64
+from cryptochallenge import hex_to_b64
 
 class TestHexStringToByteArray(TestCase):
     def test_hexStringToByteArray(self):

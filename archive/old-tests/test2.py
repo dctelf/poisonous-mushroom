@@ -1,7 +1,7 @@
 #/usr/bin/python
 
-from modules import xor
-from modules import hex_to_b64
+from cryptochallenge import xor
+from cryptochallenge import hex_to_b64
 import hexdump
 import codecs
 

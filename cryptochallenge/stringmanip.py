@@ -3,7 +3,11 @@
 import re
 
 def hexStringToByteArray(hex_string):
-    return ("abc123")
+    # convert string to bytearray of character values
+
+    # 
+
+    #
 
 
 def bytearrayToBase64(bytearray):

@@ -1,6 +1,6 @@
 #!/usr/bin/python
 
-from modules import padding
+from cryptochallenge import padding
 
 inputBA = bytearray("YELLOW SUBMARINEYELLOW SUBMARINEYELLOW SUBMARINE",'utf-8')
 blockLen = 17

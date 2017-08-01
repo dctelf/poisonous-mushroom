@@ -1,6 +1,6 @@
 #!/usr/bin/python
 
-from modules import hex_to_b64
+from cryptochallenge import hex_to_b64
 import os
 from cryptography.hazmat.primitives.ciphers import Cipher, modes, algorithms
 from cryptography.hazmat.backends import default_backend  # http://cryptography.io
