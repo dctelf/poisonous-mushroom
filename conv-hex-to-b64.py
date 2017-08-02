@@ -20,6 +20,6 @@ def main():
         print(stringmanip.hexToBase64(options.input_hex))
     else:
         print("input is not hex")
-
+ 
 if __name__ == '__main__':
     main()
