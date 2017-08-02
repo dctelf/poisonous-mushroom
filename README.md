@@ -19,7 +19,7 @@ Always operate on raw bytes, never on encoded strings. Only use hex and base64 f
 
 ### My approach:
 
-* Script "scripts/conv-hex-to-b64.py" taking single cmd line option of a hex strign and returning to stdout the base64 encoded string
+* Top-level script "conv-hex-to-b64.py" taking single cmd line option of a hex strign and returning to stdout the base64 encoded string
 * A new module called stringmanip providing string manipulation methods;
     * hexStringToByteArray()
     * bytearrayToBase64()
@@ -48,7 +48,7 @@ If your function works properly, then when you feed it the string:
 
 ### My approach:
 
-* Script "scripts/xor-hex.py" taking two cmd line args as base64 strings and returning the base64 xor of the two values
+* Top-level script "xor-hex.py" taking two cmd line args as base64 strings and returning the base64 xor of the two values
 * Addition of a method to the stringmanip module;
     * xorBuffer()
 * A suite of tests for this method
