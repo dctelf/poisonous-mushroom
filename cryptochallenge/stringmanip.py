@@ -3,8 +3,10 @@
 import re
 
 def hexStringToByteArray(hex_string):
-    # convert string to bytearray of character values
-    print("aaaahhh!!!!w")
+    # convert hex string to bytearray of character values
+    char_values = bytearray(hex_string, 'utf-8')
+
+
     #
 
     #
