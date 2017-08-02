@@ -8,7 +8,8 @@ def main():
     parser = optparse.OptionParser()
 
     parser.add_option(
-        "--hexstr",
+        "-i",
+        "--instr",
         action="store",
         type="string",
         dest="input_hex",
@@ -20,6 +21,6 @@ def main():
         print(stringmanip.hexToBase64(options.input_hex))
     else:
         print("input is not hex")
- 
+
 if __name__ == '__main__':
     main()
