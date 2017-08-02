@@ -1,5 +1,10 @@
 #!/usr/bin/python
 
+# setup the ability to import modules from a sibling directory
+import os
+import sys
+sys.path.insert(0, os.path.abspath('..'))
+
 import optparse
 from cryptochallenge import stringmanip
 
