@@ -6,35 +6,36 @@ def hexStringToByteArray(hex_string):
     # convert hex string to bytearray of character values
     char_values = bytearray(hex_string, 'utf-8')
 
-    # hex strings use 2 characters to represent a byte
-    # if there are an odd number of characters, the left most character represents
-    # the lower word of a byte
-    # if there are an even number of characters, the left most character represents
-    # the upper word of a byte
     string_bytes_count = len(char_values)
-    if string_bytes_count % 2 == 1: upperWord = False
-    else upperWord = True
+
+    # perhaps lazy, but if there is an odd number of characters in the hex string
+    # prepend the string with a "0" character
+
+    if string_bytes_count % 2 == 1:
+        # aware I could do away with the string to byte conversion by setting this to be integer value 48
+        # but this would just look like an arbitrary magic number here
+        char_values[:0] = bytearray('0','utf-8')
+        string_bytes_count += 1
 
     # iterate over the characters passed and convert the encoded values to representative values
-    # in utf-8/Ascii: 0-9 => 48-47; a-f => 97-102
-    for i in range(string_bytes_count):
 
-        character = char_values.pop()
+    ba = bytearray()
+    for i in range(int(string_bytes_count/2)):
+        upper_word = hexCharToValue(char_values[i*2])
+        lower_word = hexCharToValue(char_values[(i*2)+1])
+        byte_value = (upper_word * 16) + lower_word
+        ba.append(byte_value)
 
-        if character < 58:
-            digit_value = character - 48
-        else:
-            digit_value = character - 87
+    return ba
 
-# a0 => 16*10 + 0 = 160
-# a => 16*0 + 10 = 10
-# abc
-# len 3
-# 10, 11, 12
-# 2748 => bc: 188 + a00 => 2560
+
+def hexCharToValue(hex_char):
+    # in utf-8/Ascii: 0-9 => 48-47; a-f => 97-10
+    if hex_char < 58: return hex_char - 48
+    else: return hex_char - 87
 
 def bytearrayToBase64(bytearray):
-    return ("def456")
+    return True
 
 
 def hexToBase64(hex_string):
