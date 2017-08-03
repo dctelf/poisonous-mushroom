@@ -22,8 +22,8 @@ def main():
     )
     options, args = parser.parse_args()
 
-    if(stringmanip.isHexString(options.input_hex)):
-        print(stringmanip.hexToBase64(options.input_hex))
+    if(stringmanip.isHexString(args[0])):
+        print(stringmanip.hexToBase64(args[0]))
     else:
         print("input is not hex")
 
