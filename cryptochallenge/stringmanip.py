@@ -43,20 +43,51 @@ def bytearrayToBase64(in_bytes):
     numbytes = len(in_bytes)
     groups = int((numbytes-1)/3) + 1
 
+    # establish the base64 sting to return
+    b64string = ''
+
+    # eat away groups of 3 bytes from the LHS of the provided byte array
     for group in range(groups):
         startpos = group * 3
         endpos = startpos + 3
         inbuf = in_bytes[startpos:endpos]
-        print(inbuf)
-        if group != groups:
+        if (group + 1) != groups:
             # we are in a full group which will require no padding
             # do some bit shifting to pull apart 6 bit words
-            
+            b64string += valueToBase64Char( ( inbuf[0] & 0b11111100 ) >> 2 )
+            b64string += valueToBase64Char(( ( (inbuf[0] << 8) | inbuf[1]) & 0b0000001111110000 ) >> 4 )
+            b64string += valueToBase64Char(( ( (inbuf[1] << 8) | inbuf[2]) & 0b0000111111000000 ) >> 6 )
+            b64string += valueToBase64Char( inbuf[2] & 0b00111111 )
+
+            print(b64string)
         else:
-            # we are in the last group, which may require padding
+
+            remaining_characters = len(inbuf)
+            padstr = ''
+            # stretch out the input buffer with 0's as appropriate and prepare the pad string
+            for i in range(3 - remaining_characters):
+                inbuf.append(0)
+                padstr += "="
+
+            # mask out the 3 byte input buffer into 4 * 6 bit words
+            op_word1 = (inbuf[0] & 0b11111100) >> 2
+            op_word2 = (((inbuf[0] << 8) | inbuf[1]) & 0b0000001111110000) >> 4
+            op_word3 = (((inbuf[1] << 8) | inbuf[2]) & 0b0000111111000000) >> 6
+            op_word4 = inbuf[2] & 0b00111111
+
+            if op_word4 > 0:
+                
+            if op_word1 > 0:
+                b64string += valueToBase64Char(op_word1)
+            if op_word2 > 0:
+                b64string += valueToBase64Char(op_word2)
 
 
-    return True
+
+            print(inbuf)
+
+
+    return b64string
 
 def valueToBase64Char(b64_value):
     # 0 - 25 => A - Z (ASCII 65 - 90)
