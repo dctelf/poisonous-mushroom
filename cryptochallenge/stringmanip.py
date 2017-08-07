@@ -35,56 +35,77 @@ def hexCharToValue(hex_char):
     if hex_char < 58: return hex_char - 48
     else: return hex_char - 87
 
+
 def bytearrayToBase64(in_bytes):
+
+    # determine number of entire groups of 3 bytes to be converted
+    numbytes = len(in_bytes)
+
+    # identify whether there is a final group of 1 or 2 input bytes which requires padding
+    # and hence, identify the number of "=" characters to append
+    padgrouplen = numbytes % 3
+    if (padgrouplen) > 0:
+        padblock = True
+        numpadchars = 2 - padgrouplen
+        padstr = numpadchars * '='
+    else:
+        padblock = False
+        padstr = ''
+
+    
+    # consider popping the to be padded bytes off the end of the input bytearray
+    # that way the entire byte array can be iterated through first then only if there
+    # is a group to be padded do we enter that clause
+
+    # identify the number of 6 bit words in the last group to be converted
+    # does this depend on trailing 0's? i.e. do I need to do the conversion to b64 first before deciding?
+
+# hmm - none of this feels very elegant, it's neither concise for efficiency, or verbose but clear
+# might need a bit of a refactor
+def old_bytearrayToBase64(in_bytes):
 
     # identify the total number of 3 byte groups to handle
     # bearing in mind that the last group may have 1, 2 or 3 bytes to convert
-    # this last group requires padding consideration
+    # in which case this last group requires padding consideration
     numbytes = len(in_bytes)
-    groups = int((numbytes-1)/3) + 1
+    numbytes_modulo3 = numbytes % 3
+    num_padchars = 2 - numbytes_modulo3
+
+    full_groups = (numbytes - numbytes_modulo3) / 3
 
     # establish the base64 sting to return
     b64string = ''
 
     # eat away groups of 3 bytes from the LHS of the provided byte array
-    for group in range(groups):
+    for group in range(full_groups):
         startpos = group * 3
         endpos = startpos + 3
         inbuf = in_bytes[startpos:endpos]
-        if (group + 1) != groups:
-            # we are in a full group which will require no padding
-            # do some bit shifting to pull apart 6 bit words
-            b64string += valueToBase64Char( ( inbuf[0] & 0b11111100 ) >> 2 )
-            b64string += valueToBase64Char(( ( (inbuf[0] << 8) | inbuf[1]) & 0b0000001111110000 ) >> 4 )
-            b64string += valueToBase64Char(( ( (inbuf[1] << 8) | inbuf[2]) & 0b0000111111000000 ) >> 6 )
-            b64string += valueToBase64Char( inbuf[2] & 0b00111111 )
+        # we are in a full group which will require no padding
+        # do some bit shifting to pull apart 6 bit words
+        b64string += valueToBase64Char( ( inbuf[0] & 0b11111100 ) >> 2 )
+        b64string += valueToBase64Char(( ( (inbuf[0] << 8) | inbuf[1]) & 0b0000001111110000 ) >> 4 )
+        b64string += valueToBase64Char(( ( (inbuf[1] << 8) | inbuf[2]) & 0b0000111111000000 ) >> 6 )
+        b64string += valueToBase64Char( inbuf[2] & 0b00111111 )
 
-            print(b64string)
-        else:
+        print(b64string)
 
-            remaining_characters = len(inbuf)
-            padstr = ''
-            # stretch out the input buffer with 0's as appropriate and prepare the pad string
-            for i in range(3 - remaining_characters):
-                inbuf.append(0)
-                padstr += "="
+    if numbytes_modulo3 > 0:
+        # we have some padding to consider
+        padstr = num_padchars * '='
+        #
+    # stretch out the input buffer with 0's as appropriate and prepare the pad string
+    for i in range(3 - remaining_characters):
+        inbuf.append(0)
+        padstr += "="
 
-            # mask out the 3 byte input buffer into 4 * 6 bit words
-            op_word1 = (inbuf[0] & 0b11111100) >> 2
-            op_word2 = (((inbuf[0] << 8) | inbuf[1]) & 0b0000001111110000) >> 4
-            op_word3 = (((inbuf[1] << 8) | inbuf[2]) & 0b0000111111000000) >> 6
-            op_word4 = inbuf[2] & 0b00111111
+    # mask out the 3 byte input buffer into 4 * 6 bit words
+    op_word1 = (inbuf[0] & 0b11111100) >> 2
+    op_word2 = (((inbuf[0] << 8) | inbuf[1]) & 0b0000001111110000) >> 4
+    op_word3 = (((inbuf[1] << 8) | inbuf[2]) & 0b0000111111000000) >> 6
+    op_word4 = inbuf[2] & 0b00111111
 
-            if op_word4 > 0:
-                
-            if op_word1 > 0:
-                b64string += valueToBase64Char(op_word1)
-            if op_word2 > 0:
-                b64string += valueToBase64Char(op_word2)
-
-
-
-            print(inbuf)
+    print(inbuf)
 
 
     return b64string
