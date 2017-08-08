@@ -50,6 +50,8 @@ If your function works properly, then when you feed it the string:
 
 * Top-level script "xor-hex.py" taking two cmd line args as base64 strings and returning the base64 xor of the two values
 * Addition of a method to the stringmanip module;
-    * xorBuffer()
-* A suite of tests for this method
+    * hexStrXOR()
+    * byteArrayXOR()
+    * bytearrayToHexStr()
+* A suite of tests for these methods
 
