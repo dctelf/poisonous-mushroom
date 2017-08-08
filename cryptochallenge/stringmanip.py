@@ -46,69 +46,55 @@ def bytearrayToBase64(in_bytes):
     padgrouplen = numbytes % 3
     if (padgrouplen) > 0:
         padblock = True
-        numpadchars = 2 - padgrouplen
+        numpadchars = 3 - padgrouplen
         padstr = numpadchars * '='
     else:
         padblock = False
         padstr = ''
 
-    
-    # consider popping the to be padded bytes off the end of the input bytearray
-    # that way the entire byte array can be iterated through first then only if there
-    # is a group to be padded do we enter that clause
+    numgroups = int((numbytes - padgrouplen) / 3)
 
-    # identify the number of 6 bit words in the last group to be converted
-    # does this depend on trailing 0's? i.e. do I need to do the conversion to b64 first before deciding?
-
-# hmm - none of this feels very elegant, it's neither concise for efficiency, or verbose but clear
-# might need a bit of a refactor
-def old_bytearrayToBase64(in_bytes):
-
-    # identify the total number of 3 byte groups to handle
-    # bearing in mind that the last group may have 1, 2 or 3 bytes to convert
-    # in which case this last group requires padding consideration
-    numbytes = len(in_bytes)
-    numbytes_modulo3 = numbytes % 3
-    num_padchars = 2 - numbytes_modulo3
-
-    full_groups = (numbytes - numbytes_modulo3) / 3
-
-    # establish the base64 sting to return
+    # initialise an empty base64 string to subsequently return
     b64string = ''
 
-    # eat away groups of 3 bytes from the LHS of the provided byte array
-    for group in range(full_groups):
+    # iterate over all the full 3 byte groups
+    for group in range(numgroups):
         startpos = group * 3
         endpos = startpos + 3
         inbuf = in_bytes[startpos:endpos]
         # we are in a full group which will require no padding
         # do some bit shifting to pull apart 6 bit words
-        b64string += valueToBase64Char( ( inbuf[0] & 0b11111100 ) >> 2 )
-        b64string += valueToBase64Char(( ( (inbuf[0] << 8) | inbuf[1]) & 0b0000001111110000 ) >> 4 )
-        b64string += valueToBase64Char(( ( (inbuf[1] << 8) | inbuf[2]) & 0b0000111111000000 ) >> 6 )
-        b64string += valueToBase64Char( inbuf[2] & 0b00111111 )
+        b64string += valueToBase64Char((inbuf[0] & 0b11111100) >> 2)
+        b64string += valueToBase64Char((((inbuf[0] << 8) | inbuf[1]) & 0b0000001111110000) >> 4)
+        b64string += valueToBase64Char((((inbuf[1] << 8) | inbuf[2]) & 0b0000111111000000) >> 6)
+        b64string += valueToBase64Char(inbuf[2] & 0b00111111)
 
-        print(b64string)
+    if padblock:
+        # we also need to consider a padded block of 1 or 2 bytes
+        # identify the index from the end of the input we care about
+        negativepos = 0 - padgrouplen
 
-    if numbytes_modulo3 > 0:
-        # we have some padding to consider
-        padstr = num_padchars * '='
-        #
-    # stretch out the input buffer with 0's as appropriate and prepare the pad string
-    for i in range(3 - remaining_characters):
-        inbuf.append(0)
-        padstr += "="
+        # and stick those bytes into inbuf
+        inbuf = in_bytes[negativepos:]
 
-    # mask out the 3 byte input buffer into 4 * 6 bit words
-    op_word1 = (inbuf[0] & 0b11111100) >> 2
-    op_word2 = (((inbuf[0] << 8) | inbuf[1]) & 0b0000001111110000) >> 4
-    op_word3 = (((inbuf[1] << 8) | inbuf[2]) & 0b0000111111000000) >> 6
-    op_word4 = inbuf[2] & 0b00111111
+        # if there is 1 input byte:
+        #   we always encode into 2 * 6 bit words, even if the last one is all 0s and converts to an A
+        # if there are 2 input bytes:
+        #   we always encode into 3 * 6 bit words, even if the last word is all 0's and converts to an A
 
-    print(inbuf)
+        if padgrouplen == 1:
+            b64string += valueToBase64Char((inbuf[0] & 0b11111100) >> 2)
+            b64string += valueToBase64Char((((inbuf[0] << 8)) & 0b0000001111110000) >> 4)
+        elif padgrouplen == 2:
+            b64string += valueToBase64Char((inbuf[0] & 0b11111100) >> 2)
+            b64string += valueToBase64Char((((inbuf[0] << 8) | inbuf[1]) & 0b0000001111110000) >> 4)
+            b64string += valueToBase64Char((((inbuf[1] << 8)) & 0b0000111111000000) >> 6)
+        else:
+            exit("something went wrong with the length of the padding group")
 
-
+    b64string += padstr
     return b64string
+
 
 def valueToBase64Char(b64_value):
     # 0 - 25 => A - Z (ASCII 65 - 90)

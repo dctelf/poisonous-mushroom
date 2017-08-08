@@ -1,18 +1,9 @@
 from unittest import TestCase
-import os
 import string
 import random
-import binascii
 from cryptochallenge import stringmanip
 
 class TestHexStringToByteArray(TestCase):
-    def test_hexStringToByteArray(self):
-        # generate random value of 100 bytes
-        randomValue = os.urandom(100)
-        # convert this to hex string using standard utilities
-
-
-        self.assertEqual("a", "a")
 
     def test_problemString(self):
         challenge_hex = "49276d206b696c6c696e6720796f757220627261696e206c696b65206120706f69736f6e6f7573206d757368726f6f6d"
