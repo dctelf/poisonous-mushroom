@@ -22,6 +22,7 @@ SSdtIGtpbGxpbmcgeW91ciBicmFpbiBsaWtlIGEgcG9pc29ub3VzIG11c2hyb29t
 * A suite of tests for each method validating these against the standard python methods
 
 An interesting note on b64 conversion on the last 3 byte/4 word padded conversion
+
 [b64note](b64note.md)
 
 ## Fixed XOR
