@@ -12,19 +12,17 @@ Should produce:
 SSdtIGtpbGxpbmcgeW91ciBicmFpbiBsaWtlIGEgcG9pc29ub3VzIG11c2hyb29t
 ```
 
-So go ahead and make that happen. You'll need to use this code for the rest of the exercises.
+### Approach:
 
-_Rule_
-Always operate on raw bytes, never on encoded strings. Only use hex and base64 for pretty-printing.
-
-### My approach:
-
-* Top-level script "conv-hex-to-b64.py" taking single cmd line option of a hex strign and returning to stdout the base64 encoded string
+* Top-level script "conv-hex-to-b64.py" taking single cmd line option of a hex string and returning to stdout the base64 encoded string
 * A new module called stringmanip providing string manipulation methods;
     * hexStringToByteArray()
     * bytearrayToBase64()
     * hexToBase64()
 * A suite of tests for each method validating these against the standard python methods
+
+An interesting note on b64 conversion on the last 3 byte/4 word padded conversion
+[b64note]{b64note.md}
 
 ## Fixed XOR
 [challenge 2](https://cryptopals.com/sets/1/challenges/2)
