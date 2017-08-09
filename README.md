@@ -55,3 +55,29 @@ If your function works properly, then when you feed it the string:
     * bytearrayToHexStr()
 * A suite of tests for these methods
 
+
+## Single-byte XOR cipher
+[challenge 3](https://cryptopals.com/sets/1/challenges/3)
+
+
+
+The hex encoded string:
+
+```
+1b37373331363f78151b7f2b783431333d78397828372d363c78373e783a393b3736
+```
+
+... has been XOR'd against a single character. Find the key, decrypt the message (use character frequency analysis to score output)
+
+### My approach:
+
+* Top-level script "byte-xor-cipher.py" taking one cmd line args - a hex encoded string which is the result of the xor cipher.
+* New module textscore giving the following methods;
+    * abc
+* New module ciphers giving the following methods;  
+    * reverseOneByteXOR()
+* A suite of tests for these methods
+
+
+
+

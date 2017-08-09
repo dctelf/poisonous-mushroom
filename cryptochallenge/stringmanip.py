@@ -147,3 +147,6 @@ def bytearrayToHexStr(input_ba):
     # but the approach is proven, no need for redoing this again
 
     return ''.join( [ "%02x" %  x  for x in input_ba ] ).strip()
+
+def bytearrayToUTF8Str(input_ba):
+    return str(input_ba, 'utf-8')
