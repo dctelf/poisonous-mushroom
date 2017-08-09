@@ -13,7 +13,8 @@ def englishAbsScore(test_ba):
 
 # going to allow a few A|B tests of this - outer method calls inner for simplicity
 def singleCharacterScore(test_chr_val):
-    return singleCharacterScore_B(test_chr_val)
+    # the more specific A version appears to produce more accurate results
+    return singleCharacterScore_A(test_chr_val)
 
 def singleCharacterScore_B(test_chr_val):
     # Type B: just score LC letters & space only
@@ -56,10 +57,10 @@ def singleCharacterScore_A(test_chr_val):
 
     # space is a valid character too - avg 200 points
     if ( test_chr_val == 32):
-        return 200
+        return 300
 
     # 33 - 47, 91 - 96, 123 - 127 are standard punctiation like symbols - 2 points
-    if ( 32 < test_chr_val < 48 ) | ( 90 < test_chr_val < 97 ) | ( 122 < test_chr_val < 128 ): return 0
+    if ( 32 < test_chr_val < 48 ) | ( 90 < test_chr_val < 97 ) | ( 122 < test_chr_val < 128 ): return 5
 
     # everything else is noise - 0 points
     return 0

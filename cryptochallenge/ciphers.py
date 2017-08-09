@@ -21,17 +21,22 @@ def reverseOneByteXOR(hex_str):
 
     score_desc_keys = sorted(characterscore, key=characterscore.get)
 
-    result_structure = {}
+    result_structure = []
 
-    for i in score_desc_keys[-3:]:
-        result_structure[i] = {}
-        result_structure[i]['length_norm_score'] = characterscore[i]
-        result_structure[i]['key_int'] = i
-        result_structure[i]['key_chr'] = chr(i)
+    top3_keys = score_desc_keys[-3:]
 
-        testkey = bytearray([i]) * ciphertext_len
+    i = 0
+    for key in top3_keys:
+        result_structure.append({})
+        result_structure[i]['length_norm_score'] = characterscore[key]
+        result_structure[i]['key_int'] = key
+        result_structure[i]['key_chr'] = chr(key)
+
+        testkey = bytearray([key]) * ciphertext_len
 
         result_structure[i]['likely_res_ba'] = stringmanip.byteArrayXOR(testkey, ba)
+
+        i+= 1
 
     return result_structure
 
