@@ -4,6 +4,27 @@ import re
 from cryptochallenge import stringmanip, textscore
 
 
+def repkeyXOR(plaintext, key):
+    plaintextlen = len(plaintext)
+    keylen = len(key)
+
+    if keylen > plaintextlen:
+        exit("not really prepared for padding plaintext yet :)")
+
+    plaintext_ba = bytearray(plaintext, 'utf-8')
+    key_ba = bytearray(key, 'utf-8')
+
+    i = 0
+    ciphertext_ba = bytearray()
+    for byte in plaintext_ba:
+        print(chr(byte))
+        keypos = i % keylen
+        ciphertext_ba.append(byte ^ key_ba[keypos])
+        i += 1
+
+    return ciphertext_ba
+
+
 def reverseOneByteXOR(hex_str):
     # obtain bytearray of the hex string
     ba = stringmanip.hexStringToByteArray(hex_str)

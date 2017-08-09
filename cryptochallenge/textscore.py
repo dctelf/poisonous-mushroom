@@ -65,4 +65,28 @@ def singleCharacterScore_A(test_chr_val):
     # everything else is noise - 0 points
     return 0
 
+def str_hammingDist(str_a, str_b):
+    # method takes 2 strings, not necessarily of same length
+    # converts them to bytearrays
+    # pads out the RHS of the shorter string ba with 0's
+    # then passes them to ba_hammingDist()
+    ba_a = bytearray(str_a, 'utf-8')
+    ba_b = bytearray(str_b, 'utf-8')
 
+    return ba_hammingDist(ba_a, ba_b)
+
+def ba_hammingDist(ba_a, ba_b):
+    ba_a_len = len(ba_a)
+    ba_b_len = len(ba_b)
+    if ba_a_len != ba_b_len:
+        exit("method must be called with equal length bytearrays")
+    hd = 0
+    for i in range(ba_a_len):
+        byte_a = ba_a.pop()
+        byte_b = ba_b.pop()
+        xor = (byte_a ^ byte_b)
+        for j in range(8):
+            if xor & 1: hd += 1
+            xnor = xnor >> 1
+
+    return hd
