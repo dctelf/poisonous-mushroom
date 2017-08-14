@@ -47,7 +47,7 @@ def main():
         sorted_distances = sorted(distances, key=lambda k: k['norm_hd'])
 
         low5_distances = sorted_distances[0:5]
-        # build the transposed strings
+        # build the transposed string
         ctext_len = len(b64str)
 
         for distance in low5_distances:
