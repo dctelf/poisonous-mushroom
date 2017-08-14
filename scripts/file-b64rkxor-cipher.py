@@ -30,8 +30,11 @@ def main():
         for line in f:
             b64str += line.strip()
 
-    distances = []
+
     if stringmanip.isRFC6468b64String(b64str):
+        distances = []
+        # there's an issue in here - I'm using the b64 string to determine distances and transpositions
+        # but I need to decode it from b64 into real data values first before operating upon it
         i = 0
         for keysize in range(2,41):
             distances.append({})
@@ -42,8 +45,24 @@ def main():
 
 
         sorted_distances = sorted(distances, key=lambda k: k['norm_hd'])
-        print(sorted_distances)
 
+        low5_distances = sorted_distances[0:5]
+        # build the transposed strings
+        ctext_len = len(b64str)
+
+        for distance in low5_distances:
+            distance['transpose'] = []
+            for i in range(distance['keysize']): distance['transpose'].append("")
+            for i in range(ctext_len): distance['transpose'][i % distance['keysize']] += b64str[i]
+        print(low5_distances)
+
+        # we now have transposed ctext strings in the data structure
+        for distance in low5_distances:
+            distance['transp_ptext'] = []
+            for i in range(distance['keysize']):
+                # distance['']
+                print(i)
+            # ciphers.reverseOneByteXOR()
 
 
 if __name__ == '__main__':
