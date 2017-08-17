@@ -32,6 +32,7 @@ def main():
 
 
     if stringmanip.isRFC6468b64String(b64str):
+        ciphertext = stringmanip.base64ToBytearray(b64str)
         distances = []
         # there's an issue in here - I'm using the b64 string to determine distances and transpositions
         # but I need to decode it from b64 into real data values first before operating upon it
@@ -39,7 +40,7 @@ def main():
         for keysize in range(2,41):
             distances.append({})
             distances[i]['keysize'] = keysize
-            abs_hd = textscore.str_hammingDist(b64str[0:keysize], b64str[keysize:(2*keysize)])
+            abs_hd = textscore.ba_hammingDist(ciphertext[0:keysize], ciphertext[keysize:(2*keysize)])
             distances[i]['norm_hd'] = abs_hd/keysize
             i += 1
 
@@ -48,21 +49,23 @@ def main():
 
         low5_distances = sorted_distances[0:5]
         # build the transposed string
-        ctext_len = len(b64str)
+        ctext_len = len(ciphertext)
 
         for distance in low5_distances:
             distance['transpose'] = []
-            for i in range(distance['keysize']): distance['transpose'].append("")
-            for i in range(ctext_len): distance['transpose'][i % distance['keysize']] += b64str[i]
-        print(low5_distances)
+            for i in range(distance['keysize']): distance['transpose'].append(bytearray())
+            for i in range(ctext_len): distance['transpose'][i % distance['keysize']].append(ciphertext[i])
 
         # we now have transposed ctext strings in the data structure
         for distance in low5_distances:
             distance['transp_ptext'] = []
+            distance['key_char'] = []
             for i in range(distance['keysize']):
-                # distance['']
-                print(i)
+                likely_results = ciphers.reverseOneByteXORba(distance['transpose'][i])
+                distance['transp_ptext'].append(likely_results[2]['likely_res_ba'])
+                distance['key_char'].append(likely_results[0]['key_chr'])
             # ciphers.reverseOneByteXOR()
+        print("bp")
 
 
 if __name__ == '__main__':

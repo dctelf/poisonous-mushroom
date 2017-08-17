@@ -1,7 +1,7 @@
 # /usr/bin/python3
 
 import re
-
+import codecs
 
 def hexStringToByteArray(hex_string):
     # convert hex string to bytearray of character values
@@ -124,6 +124,12 @@ def isRFC6468b64String(input_string):
     m = re.match('^[a-zA-Z0-9\+/=]+$',input_string)
     if m: return True
     else: return False
+
+def base64ToBytearray(b64_string):
+    str_ba = bytearray(b64_string, 'utf-8')
+    val_bytes = codecs.decode(str_ba, 'base64')
+    return bytearray(val_bytes)
+
 
 def hexStrXOR(str_a, str_b):
     str_a_ba = hexStringToByteArray(str_a)

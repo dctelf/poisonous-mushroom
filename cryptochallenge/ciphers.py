@@ -24,11 +24,12 @@ def repkeyXOR(plaintext, key):
 
     return ciphertext_ba
 
-
 def reverseOneByteXOR(hex_str):
     # obtain bytearray of the hex string
     ba = stringmanip.hexStringToByteArray(hex_str)
+    return reverseOneByteXORba(ba)
 
+def reverseOneByteXORba(ba):
     # iterate over all the possible single byte values
     ciphertext_len = len(ba)
     characterscore = {}

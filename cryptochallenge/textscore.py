@@ -84,7 +84,10 @@ def str_hammingDist(str_a, str_b):
 
     return ba_hammingDist(ba_a, ba_b)
 
-def ba_hammingDist(ba_a, ba_b):
+def ba_hammingDist(ipba_a, ipba_b):
+    ba_a = ipba_a[:]
+    ba_b = ipba_b[:]
+
     ba_a_len = len(ba_a)
     ba_b_len = len(ba_b)
     if ba_a_len != ba_b_len:
