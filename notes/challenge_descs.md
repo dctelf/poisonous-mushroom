@@ -1,9 +1,7 @@
 # _poisonous-mushroom:_ 
 # Matasano crypto challenge solutions in python
 
-[Challenge 1](notes/challenge_descs.md#challenge1)
-
-## Convert hex to base64
+##<a name="challenge1" /> Convert hex to base64
 [challenge 1](https://cryptopals.com/sets/1/challenges/1)
 
 The string:
