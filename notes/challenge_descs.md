@@ -74,6 +74,34 @@ The hex encoded string:
     * reverseOneByteXOR()
 * A suite of tests for these methods
 
+##<a name="challenge4" /> Detect Single Character XOR
+[challenge 4](https://cryptopals.com/sets/1/challenges/4)
 
+Use scoring and reversal of single char XOR against a file of encoded strings to identify the encrypted line.
 
+### My approach:
 
+* Simple script "file-byte-xor-cipher.py" that iterates over the strings in the file
+* re-uses the functions written in challenge 3 to find the most likely character for each line
+* then the script takes the best scoring line and character overall and displays this
+
+##<a name="challenge5" /> Implement repeating-key XOR
+[challenge 5](https://cryptopals.com/sets/1/challenges/5)
+
+Encrypt a string using repeating key XOR...
+
+### My approach:
+
+* top level script that takes 2 arguments (plaintext and key) and simply calls the ciphers.repkeyXOR function
+* the function quite simply iterates over the input data (as bytes) and XORs each bytes with the appropriate equivalent offset key byte
+##<a name="challenge6" /> Break Repeating Key-XOR
+[challenge 6](https://cryptopals.com/sets/1/challenges/6)
+
+A bit more tricky - uses hamming (edit) distances to first make a guess at the most apt potential keylength.  Once these top n keylengths have been derived, transpose the ciphertext into n offset transpositions.
+ 
+For each transposition, attempt to break single character XOR against it (using scoring), then finally glue this all together as a set of most likely results.
+
+### My approach:
+
+* def
+* abc
