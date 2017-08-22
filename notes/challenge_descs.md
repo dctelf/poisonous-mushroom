@@ -113,12 +113,12 @@ For each transposition, attempt to break single character XOR against it (using 
 * A base script file-b64rkxor-break.py taking the path to the encrypted file as a single argument
 * An attempt to use a Class to bind together the 'solver' data structure (B64rkxor) - note: in heindsight not the most semantically apt use of OOP here.  The class concept has been butchered more into a namespace than a logical data centric set of methods (and certianly, no concept of inheritance applies)
 * Methods within this class to:
-** de-encode from b64
-** find the hamming distances of different length blocks
-** and hence identify the most likely keylengths
-** for each most likely keylength, transpose the ciphertext into [keylength] blocks of data
-** for each  block, run the single byte xor solver (assuming english text for the scoring)
-** combine the most likely key string, and the most likely resultant plaintext, and print
+	* de-encode from b64
+	* find the hamming distances of different length blocks
+	* and hence identify the most likely keylengths
+	* for each most likely keylength, transpose the ciphertext into [keylength] blocks of data
+	* for each  block, run the single byte xor solver (assuming english text for the scoring)
+	* combine the most likely key string, and the most likely resultant plaintext, and print
 
 
 ## <a name="challenge7" /> decrypt AES in ECB mode
@@ -132,5 +132,5 @@ Relatively simple one this, decode a base64 encoded file, then decrypt it with t
 * A base script aesecb128-decrypt.py taking the path to the encrypted file and the key string as arguments
 * reuse the stringmanip module b64 to bytearray method
 * import the PyCrypto module and use the AES method to decrypt this data with the given key
-** https://pypi.python.org/pypi/pycrypto
-** http://pythonhosted.org/pycrypto/
+	* https://pypi.python.org/pypi/pycrypto
+	* http://pythonhosted.org/pycrypto/
