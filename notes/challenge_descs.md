@@ -94,6 +94,7 @@ Encrypt a string using repeating key XOR...
 
 * top level script that takes 2 arguments (plaintext and key) and simply calls the ciphers.repkeyXOR function
 * the function quite simply iterates over the input data (as bytes) and XORs each bytes with the appropriate equivalent offset key byte
+
 ##<a name="challenge6" /> Break Repeating Key-XOR
 [challenge 6](https://cryptopals.com/sets/1/challenges/6)
 
@@ -103,5 +104,14 @@ For each transposition, attempt to break single character XOR against it (using 
 
 ### My approach:
 
-* def
-* abc
+* A base script file-b64rkxor-break.py taking the path to the encrypted file as a single argument
+* An attempt to use a Class to bind together the 'solver' data structure (B64rkxor) - note: in heindsight not the most semantically apt use of OOP here.  The class concept has been butchered more into a namespace than a logical data centric set of methods (and certianly, no concept of inheritance applies)
+* Methods within this class to:
+** de-encode from b64
+** find the hamming distances of different length blocks
+** and hence identify the most likely keylengths
+** for each most likely keylength, transpose the ciphertext into [keylength] blocks of data
+** for each  block, run the single byte xor solver (assuming english text for the scoring)
+** combine the most likely key string, and the most likely resultant plaintext, and print
+
+
