@@ -34,7 +34,13 @@ def main():
     likelykeys = b64solver.get_likely_key_lengths(5)
     b64solver.transpose_ctext_by_keylengths(likelykeys)
     results = b64solver.reverse_bytexors_on_transpositions()
-    print(results)
+    for result in results:
+        print("##############################################")
+        print("### identified key")
+        print(results[result]['combined_bakey'])
+        print("### yields ptext")
+        print(results[result]['combined_baptext'])
+        print("\n\n")
 
 
 

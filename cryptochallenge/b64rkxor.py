@@ -74,11 +74,22 @@ class B64rkxor(object):
                 self.results[keylength]['key_parts'].append(highscore_result['key_chr'])
                 self.results[keylength]['combined_bakey'] += highscore_result['key_chr']
 
-            # there are issues here - this expansion needs work, the output is truncating the end of the plaintext somewhat
-            ptext_part_len = len(self.results[keylength]['ptext_parts'][0]) - 1
-            for position in range(ptext_part_len):
-                for ptext_part in self.results[keylength]['ptext_parts']:
-                    self.results[keylength]['combined_baptext'] += chr(ptext_part[position])
+            combined_baptext = bytearray(self.ctextlen)
+
+            # which transposition we want to use
+            transposition_index = 0
+
+            # which position in the transposition we want to extract
+            transposition_position = 0
+
+            for i in range(self.ctextlen):
+                transposition_index = i % keylength
+                combined_baptext[i] = self.results[keylength]['ptext_parts'][transposition_index][transposition_position]
+
+                if (transposition_index == (keylength - 1)):
+                    transposition_position += 1
+
+            self.results[keylength]['combined_baptext'] = combined_baptext
 
         return self.results
 
