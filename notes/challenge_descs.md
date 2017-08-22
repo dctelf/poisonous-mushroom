@@ -1,4 +1,5 @@
-##<a name="challenge1" /> Convert hex to base64
+## <a name="challenge1" /> Convert hex to base64
+
 [challenge 1](https://cryptopals.com/sets/1/challenges/1)
 
 The string:
@@ -23,7 +24,8 @@ An interesting note on b64 conversion on the last 3 byte/4 word padded conversio
 
 [b64note](b64note.md)
 
-##<a name="challenge2" /> Fixed XOR
+## <a name="challenge2" /> Fixed XOR
+
 [challenge 2](https://cryptopals.com/sets/1/challenges/2)
 
 Write a function that takes two equal-length buffers and produces their XOR combination.
@@ -52,7 +54,8 @@ If your function works properly, then when you feed it the string:
     * bytearrayToHexStr()
 * A suite of tests for these methods
 
-##<a name="challenge3" /> Single-byte XOR cipher 
+## <a name="challenge3" /> Single-byte XOR cipher 
+
 [challenge 3](https://cryptopals.com/sets/1/challenges/3)
 
 
@@ -74,7 +77,8 @@ The hex encoded string:
     * reverseOneByteXOR()
 * A suite of tests for these methods
 
-##<a name="challenge4" /> Detect Single Character XOR
+## <a name="challenge4" /> Detect Single Character XOR
+
 [challenge 4](https://cryptopals.com/sets/1/challenges/4)
 
 Use scoring and reversal of single char XOR against a file of encoded strings to identify the encrypted line.
@@ -85,7 +89,8 @@ Use scoring and reversal of single char XOR against a file of encoded strings to
 * re-uses the functions written in challenge 3 to find the most likely character for each line
 * then the script takes the best scoring line and character overall and displays this
 
-##<a name="challenge5" /> Implement repeating-key XOR
+## <a name="challenge5" /> Implement repeating-key XOR
+
 [challenge 5](https://cryptopals.com/sets/1/challenges/5)
 
 Encrypt a string using repeating key XOR...
@@ -95,7 +100,8 @@ Encrypt a string using repeating key XOR...
 * top level script that takes 2 arguments (plaintext and key) and simply calls the ciphers.repkeyXOR function
 * the function quite simply iterates over the input data (as bytes) and XORs each bytes with the appropriate equivalent offset key byte
 
-##<a name="challenge6" /> Break Repeating Key-XOR
+## <a name="challenge6" /> Break Repeating Key-XOR
+
 [challenge 6](https://cryptopals.com/sets/1/challenges/6)
 
 A bit more tricky - uses hamming (edit) distances to first make a guess at the most apt potential keylength.  Once these top n keylengths have been derived, transpose the ciphertext into n offset transpositions.
