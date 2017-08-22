@@ -121,3 +121,16 @@ For each transposition, attempt to break single character XOR against it (using 
 ** combine the most likely key string, and the most likely resultant plaintext, and print
 
 
+## <a name="challenge7" /> decrypt AES in ECB mode
+
+[challenge 7](https://cryptopals.com/sets/1/challenges/7)
+
+Relatively simple one this, decode a base64 encoded file, then decrypt it with the given key
+
+### My approach:
+
+* A base script aesecb128-decrypt.py taking the path to the encrypted file and the key string as arguments
+* reuse the stringmanip module b64 to bytearray method
+* import the PyCrypto module and use the AES method to decrypt this data with the given key
+** https://pypi.python.org/pypi/pycrypto
+** http://pythonhosted.org/pycrypto/

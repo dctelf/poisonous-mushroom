@@ -12,3 +12,6 @@ Notes on approaches to the challenges (and links to the original challenge) as f
 * [4](notes/challenge_descs.md#challenge4)
 * [5](notes/challenge_descs.md#challenge5)
 * [6](notes/challenge_descs.md#challenge6)
+* [7](notes/challenge_descs.md#challenge7)
+* [8](notes/challenge_descs.md#challenge8)
+
