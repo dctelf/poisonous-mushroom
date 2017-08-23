@@ -6,12 +6,12 @@ Notes on approaches to the challenges (and links to the original challenge) as f
 ### Crypto Challenge Set 1
 
 [https://cryptopals.com/sets/1](https://cryptopals.com/sets/1)
-* [1](notes/challenge_descs.md#challenge1)
-* [2](notes/challenge_descs.md#challenge2)
-* [3](notes/challenge_descs.md#challenge3)
-* [4](notes/challenge_descs.md#challenge4)
-* [5](notes/challenge_descs.md#challenge5)
-* [6](notes/challenge_descs.md#challenge6)
-* [7](notes/challenge_descs.md#challenge7)
-* [8](notes/challenge_descs.md#challenge8)
+* [1](notes/set1descs.md#challenge1)
+* [2](notes/set1descs.md#challenge2)
+* [3](notes/set1descs.md#challenge3)
+* [4](notes/set1descs.md#challenge4)
+* [5](notes/set1descs.md#challenge5)
+* [6](notes/set1descs.md#challenge6)
+* [7](notes/set1descs.md#challenge7)
+* [8](notes/set1descs.md#challenge8)
 
