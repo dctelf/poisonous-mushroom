@@ -134,3 +134,20 @@ Relatively simple one this, decode a base64 encoded file, then decrypt it with t
 * import the PyCrypto module and use the AES method to decrypt this data with the given key
 	* https://pypi.python.org/pypi/pycrypto
 	* http://pythonhosted.org/pycrypto/
+
+## <a name="challenge8" /> Detect AES in ECB mode
+
+[challenge 8](https://cryptopals.com/sets/1/challenges/8)
+
+The file provided contains hex encoded strings, one is encrypted with AES ECB mode - find it.
+
+### My approach:
+
+* A base script detectaes128ecb.py taking the path to the encrypted file and a potential key string as arguments
+* iterate over the lines and decode the from hex into a bytearray
+* for each bytearray, determine the number of 'windelen' blocks (and if not an integer multiple, error the line)
+* use iterators to take a pair of blocks and compare them (first with second, then third etc. then second with third, fourth etc.)
+* If any 2 blocks in a line are equal, there's a very likely chance that 2 blocks of plaintext are identical and have encrypted to identical ciphertext
+* so... set a ecbline flag to True (there may be more than one occurence, we care about the line, not the occurence of matching blocks)
+* once all blocks have been comapared, if ecbline, make a decrypt attempt (following the code from challenge 7) using the key passed in
+* Note: tried "YELLOW SUBMARINE" on the identified line - it didn't work :(
