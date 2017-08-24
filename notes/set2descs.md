@@ -2,23 +2,10 @@
 
 [challenge 1](https://cryptopals.com/sets/2/challenges/1)
 
-The string:
-```
-49276d206b696c6c696e6720796f757220627261696e206c696b65206120706f69736f6e6f7573206d757368726f6f6d
-```
-Should produce:
-```
-SSdtIGtpbGxpbmcgeW91ciBicmFpbiBsaWtlIGEgcG9pc29ub3VzIG11c2hyb29t
-```
+Implement PKCS#7 padding
 
 ### Approach:
 
-* Top-level script "conv-hex-to-b64.py" taking single cmd line option of a hex string and returning to stdout the base64 encoded string
-* A new module called stringmanip providing string manipulation methods;
-    * hexStringToByteArray()
-    * bytearrayToBase64()
-    * hexToBase64()
-* A suite of tests for each method validating these against the standard python methods
-
-An interesting note on b64 conversion on the last 3 byte/4 word padded conversion
+* Didn't bother with an outer script, just created a function in cryptochallenge.stringmanip
+* created a test to validate the function
 
