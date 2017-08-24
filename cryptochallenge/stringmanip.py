@@ -130,7 +130,6 @@ def base64ToBytearray(b64_string):
     val_bytes = codecs.decode(str_ba, 'base64')
     return bytearray(val_bytes)
 
-
 def hexStrXOR(str_a, str_b):
     str_a_ba = hexStringToByteArray(str_a)
     str_b_ba = hexStringToByteArray(str_b)
@@ -156,3 +155,12 @@ def bytearrayToHexStr(input_ba):
 
 def bytearrayToUTF8Str(input_ba):
     return str(input_ba, 'utf-8')
+
+def ba_pkcs7_pad(input_ba, blocklen):
+    input_ba_len = len(input_ba)
+    num_pad_bytes = blocklen - (input_ba_len % blocklen)
+    if num_pad_bytes == blocklen: num_pad_bytes = 0
+    pad_bytes = bytearray()
+    for i in range(num_pad_bytes): pad_bytes.append(num_pad_bytes)
+
+    return input_ba + pad_bytes
