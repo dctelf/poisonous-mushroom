@@ -132,16 +132,19 @@ def my_ba_aes_cbc128_enc(ba_ptext, ba_key, ba_iv):
             prior_block = ba_iv
             iniv = False
 
-        aes_block = my_ba_aesecb128_enc(ba_ptext[str_pos:end_pos], ba_key)
-        ctext_block = ba_repkeyXOR(aes_block, prior_block)
-        ctext += ctext_block
-        prior_block = ctext_block
+        ctext_block = ba_repkeyXOR(ba_ptext[str_pos:end_pos], prior_block)
+        aes_block = my_ba_aesecb128_enc(ctext_block, ba_key)
+        prior_block = aes_block
+        ctext += aes_block
 
 
     return ctext
 
 
-
+def lib_ba_aes_cbc128_dec(ba_ctext, ba_key, ba_iv):
+    aes_cbc128obj = AES.new(bytes(ba_key), AES.MODE_CBC, bytes(ba_iv))
+    ptext = aes_cbc128obj.decrypt(bytes(ba_ctext))
+    return ptext
 
 
 

@@ -33,7 +33,7 @@ def main():
         action="store",
         type="string",
         dest="iv",
-        help="initialisation vector"
+        help="hex string of initialisation vector"
     )
 
 
@@ -45,7 +45,7 @@ def main():
             b64str += line.strip()
 
     ctext_ba = stringmanip.base64ToBytearray(b64str)
-    iv_ba = bytearray(options.iv, 'utf-8')
+    iv_ba = stringmanip.hexStringToByteArray(options.iv)
     key_ba = bytearray(options.key, 'utf-8')
     ptext = ciphers.my_ba_aes_cbc128_dec(ctext_ba, key_ba, iv_ba)
     print(ptext)
