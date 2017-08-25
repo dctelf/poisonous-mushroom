@@ -3,6 +3,7 @@
 import re
 import codecs
 
+
 def hexStringToByteArray(hex_string):
     # convert hex string to bytearray of character values
     char_values = bytearray(hex_string, 'utf-8')
@@ -29,10 +30,12 @@ def hexStringToByteArray(hex_string):
 
     return ba
 
+
 def hexCharToValue(hex_char):
     # in utf-8/Ascii: 0-9 => 48-47; a-f => 97-10
     if hex_char < 58: return hex_char - 48
     else: return hex_char - 87
+
 
 def bytearrayToBase64(in_bytes):
 
@@ -93,6 +96,7 @@ def bytearrayToBase64(in_bytes):
     b64string += padstr
     return b64string
 
+
 def valueToBase64Char(b64_value):
     # 0 - 25 => A - Z (ASCII 65 - 90)
     # 26 - 51 => a - z (ASCII 97 - 122)
@@ -112,23 +116,28 @@ def valueToBase64Char(b64_value):
     else:
         exit(1)
 
+
 def hexToBase64(hex_string):
     return bytearrayToBase64(hexStringToByteArray(hex_string))
+
 
 def isHexString(input_string):
     m = re.match('^[a-f0-9]+$',input_string)
     if m: return True
     else: return False
 
+
 def isRFC6468b64String(input_string):
     m = re.match('^[a-zA-Z0-9\+/=]+$',input_string)
     if m: return True
     else: return False
 
+
 def base64ToBytearray(b64_string):
     str_ba = bytearray(b64_string, 'utf-8')
     val_bytes = codecs.decode(str_ba, 'base64')
     return bytearray(val_bytes)
+
 
 def hexStrXOR(str_a, str_b):
     str_a_ba = hexStringToByteArray(str_a)
@@ -137,6 +146,7 @@ def hexStrXOR(str_a, str_b):
     xor_ba = byteArrayXOR(str_a_ba, str_b_ba)
 
     return bytearrayToHexStr(xor_ba)
+
 
 def byteArrayXOR(ba_a, ba_b):
     if len(ba_a) != len(ba_b):
@@ -147,14 +157,17 @@ def byteArrayXOR(ba_a, ba_b):
             ba_xor.append(ba_a[i] ^ ba_b[i])
         return ba_xor
 
+
 def bytearrayToHexStr(input_ba):
     # a bit lazy here - I could write the reverse of the hexStringToByteArray and hexCHarToValue methods above
     # but the approach is proven, no need for redoing this again
 
     return ''.join( [ "%02x" %  x  for x in input_ba ] ).strip()
 
+
 def bytearrayToUTF8Str(input_ba):
     return str(input_ba, 'utf-8')
+
 
 def ba_pkcs7_pad(input_ba, blocklen):
     input_ba_len = len(input_ba)
