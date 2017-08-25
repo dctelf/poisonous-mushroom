@@ -21,6 +21,8 @@ Implement CBC mode using ECB mode as the underlying cipher core.  Basically, do 
     * my_ba_aes_cbc128_enc()
     * my_ba_aes_cbc128_dec()
     * Cheated, didn't follow the rules, but later used the PyCrypto library CBC routine wrapped up in lib_ba_aes_cbc128_dec() - just curious as I didn't believe this was "real" crypto :)
-* created a test to validate that when I used my method to encrypt and decrypt, the PyCrypto routine also decrypted my ctrext to the real ptext - which it did :)
+* created a test to validate that when I used my method to encrypt and decrypt, the PyCrypto routine also decrypted my ctrext to the real ptext - which it did....
+
+Yaaaaaasssssssss :)
 
 
