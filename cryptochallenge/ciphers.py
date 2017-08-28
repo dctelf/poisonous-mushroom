@@ -3,6 +3,8 @@
 import re
 from cryptochallenge import stringmanip, textscore
 from Crypto.Cipher import AES
+import secrets
+from random import randint
 
 
 def repkeyXOR(plaintext, key):
@@ -146,5 +148,61 @@ def lib_ba_aes_cbc128_dec(ba_ctext, ba_key, ba_iv):
     ptext = aes_cbc128obj.decrypt(bytes(ba_ctext))
     return ptext
 
+def generate_rand_ba(numbytes):
+    # looks like there's already a cryptographically robust rng in the python std lib
+    return secrets.token_bytes(numbytes)
 
+def aes128_encryption_oracle(ba_ptext):
+    rand_key = generate_rand_ba(16)
+    rand_prefix = generate_rand_ba(randint(5,10))
+    rand_suffix = generate_rand_ba(randint(5,10))
+    rand_iv = generate_rand_ba(16)
+
+    ba_ptext = rand_prefix + ba_ptext + rand_suffix
+
+    pkcs_padded = stringmanip.ba_pkcs7_pad(ba_ptext, 16)
+    print("rand key", rand_key)
+    print("rand prefix len", len(rand_prefix))
+    print("rand suffix len", len(rand_suffix))
+
+    if randint(0,1) == 0:
+        print("going for ecb this time round")
+        ctext = my_ba_aesecb128_enc(pkcs_padded, rand_key)
+    else:
+        print("going for cbc this time round")
+        ctext = my_ba_aes_cbc128_enc(pkcs_padded, rand_key, rand_iv)
+
+    return ctext
+
+
+def detect_aes128_ecbcbc():
+    # hmm, right....
+    # so...
+    # ummm ...
+    # we have a function above that;
+    # - takes a string
+    # - sticks on a random set of bytes between 5 and 10 bytes long on the front
+    # - sticks on a random set of bytes between 5 and 10 bytes long on the front
+    # - PKCS#7 pads it
+    # - generates a random 16 byte key (and for CBC mode, a random 16 byte iv)
+    # - then picks ECB or CBC mode at random and encrypts the string
+    #
+    # we want this function to call that function and detect which of ECB or CBC it called..
+    # we don't know the key so we can't pretend to be the real function and then compare
+    # but, we do know that for ECB mode, 2 identical blocks of input will always encrypt
+    # to the same ciphertext block under the same key
+    # so, we could construct a string where the non-ammended bytes (so, not the last block, not the first)
+    # are identical, then try it
+
+    test_str = 64 * "A"
+    test_ba = bytearray(test_str, 'utf-8')
+
+    print(test_ba)
+
+    for i in range(100):
+        ctext = aes128_encryption_oracle(test_ba)
+        if ctext[16:32] == ctext[32:48]:
+            print("detected ECB mode")
+        else:
+            print("detected CBC mode")
 
