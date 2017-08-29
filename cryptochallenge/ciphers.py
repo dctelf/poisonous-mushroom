@@ -5,6 +5,7 @@ from cryptochallenge import stringmanip, textscore
 from Crypto.Cipher import AES
 import secrets
 from random import randint
+from cryptochallenge import config
 
 
 def repkeyXOR(plaintext, key):
@@ -80,6 +81,10 @@ def my_ba_aesecb128_enc(ba_ptext, enckey_str):
     ctext = aes128obj.encrypt(bytes(ba_ptext))
     return ctext
 
+def my_ba_aesecb256_enc(ba_ptext, enckey_str):
+    aes256obj = AES.new(bytes(enckey_str), AES.MODE_ECB)
+    ctext = aes256obj.encrypt(bytes(ba_ptext))
+    return ctext
 
 def my_ba_aes_cbc128_dec(ba_ctext, ba_key, ba_iv):
 
@@ -206,3 +211,39 @@ def detect_aes128_ecbcbc():
         else:
             print("detected CBC mode")
 
+
+def aes128ecb_enc_oracle(ba_ptext):
+    ba_key = config.oracle_enc_key
+
+    given_b64_suffix = "Um9sbGluJyBpbiBteSA1LjAKV2l0aCBteSByYWctdG9wIGRvd" \
+                        "24gc28gbXkgaGFpciBjYW4gYmxvdwpUaGUgZ2lybGllcyBvbi" \
+                        "BzdGFuZGJ5IHdhdmluZyBqdXN0IHRvIHNheSBoaQpEaWQgeW9" \
+                        "1IHN0b3A/IE5vLCBJIGp1c3QgZHJvdmUgYnkK"
+
+    ba_suffix = stringmanip.base64ToBytearray(given_b64_suffix)
+
+    ba_ptext = ba_ptext + ba_suffix
+
+    pkcs_padded = stringmanip.ba_pkcs7_pad(ba_ptext, 16)
+
+    ctext = my_ba_aesecb128_enc(pkcs_padded, ba_key)
+
+    return ctext
+
+def aes256ecb_enc_oracle(ba_ptext):
+    ba_key = config.oracle_enc_key
+
+    given_b64_suffix = "Um9sbGluJyBpbiBteSA1LjAKV2l0aCBteSByYWctdG9wIGRvd" \
+                        "24gc28gbXkgaGFpciBjYW4gYmxvdwpUaGUgZ2lybGllcyBvbi" \
+                        "BzdGFuZGJ5IHdhdmluZyBqdXN0IHRvIHNheSBoaQpEaWQgeW9" \
+                        "1IHN0b3A/IE5vLCBJIGp1c3QgZHJvdmUgYnkK"
+
+    ba_suffix = stringmanip.base64ToBytearray(given_b64_suffix)
+
+    ba_ptext = ba_ptext + ba_suffix
+
+    pkcs_padded = stringmanip.ba_pkcs7_pad(ba_ptext, 32)
+
+    ctext = my_ba_aesecb256_enc(pkcs_padded, ba_key)
+
+    return ctext

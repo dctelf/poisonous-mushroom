@@ -1,0 +1,1 @@
+oracle_enc_key = 0
