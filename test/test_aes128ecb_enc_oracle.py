@@ -127,7 +127,6 @@ class TestAes128ecb_enc_oracle(TestCase):
 
                 for k in range(255):
 
-                    # this area is causing all the grief
                     if j == 15: current_compare_block = ptext[-j:] + bytearray(chr(k), 'utf-8')
                     elif j == 0: current_compare_block = compare_block[-(blocklen-j-1):] + bytearray(chr(k), 'utf-8')
                     else: current_compare_block = compare_block[-(blocklen-j-1):] + ptext[-j:] + bytearray(chr(k), 'utf-8')
