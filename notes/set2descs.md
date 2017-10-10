@@ -72,7 +72,18 @@ for blocklen in 32, 24, 16:
     test_ctext = ciphers.aes128ecb_enc_oracle(test_block_ba)
     if test_ctext[blocklen:2*blocklen] == test_ctext[2*blocklen:3*blocklen]: break
 ```            
+Next stage involves detecting whether ECB mode is in use; in practice, forcing a known pair of identical blocks to be returned
+encrypted, then comparing the result - identical ctext means ECB mode is in use
 
+```python
+test_ptext = bytearray(4 * blocklen * "A", 'utf-8')
+ctext = ciphers.aes128ecb_enc_oracle(test_ptext)
+if ctext[blocklen:2*blocklen] != ctext[2*blocklen:3*blocklen]: exit("not ecb mode")
+```
+Finally, running the cycle of pushing characters in to the oracle to adjust the position of the unknown oracle padding string.
+
+Pseudo-code shown below, not an important distinction between the treatmnet of the first block (where it is known that the text sliding in is "A"s vs. 
+the treatment of subsequent blocks, where the known previous block needs to be considered as part of the string pushed into the oracle)
 ```
 # pass 0 - block 0 ##
 so we feed in "AAA" so oracle encrypts:
