@@ -51,6 +51,8 @@ Probably easiest to read the full challenge description on the site rather than 
 
 ### Approach:
 
+* Created a script "aes_ecb_oracle_decrypt.py"
+
 Initial stage - determine keylength
 
 * first time round, I did this in an effective but slightly convoluted fashion
@@ -71,4 +73,58 @@ for blocklen in 32, 24, 16:
     if test_ctext[blocklen:2*blocklen] == test_ctext[2*blocklen:3*blocklen]: break
 ```            
 
+```
+# pass 0 - block 0 ##
+so we feed in "AAA" so oracle encrypts:
+[AAAX][BCDE][FGHI][JKLM][N~pad~~pad~~pad~]
+we keep this ciphertext for comparison
+then we feed in "AAA-chr(0-255)-" so oracle encrypts:
+[AAA-chr(0-255)-][XBCD][EFGH][IJKL][MN~pad~~pad~]
+we compare each iteration with the kept ctext from above
+if the first block matches, we know that the first oracle added character is one of the values,
+in this instance X
+# pass 1 - block 0
+we feed in "AA" and know the next char is X so oracle encrypts
+[AAXB][CDEF][GHIJ][KLMN]  <- note, 1 block less - would be a full padded block otherwise
+we keep this ciphertext for comparison
+then we feed in "AAX-chr(0-255)-" so oracle encrypts:
+[AAX-chr(0-255)-][XBCD][EFGH][IJKL][MN~pad~~pad~]
+we compare each iteration with the kept ctext from above
+if the first block matches, we know that the second oracle added character is one of the values,
+in this instance B
+# pass 2 - block 0
+we feed in "A" and know the next chars are XB so oracle encrypts
+[AXBC][DEFG][HIJK][LMN~pad~]  <- note, 1 block less - would be a full padded block otherwise
+we keep this ciphertext for comparison
+then we feed in "AXB-chr(0-255)-" so oracle encrypts:
+[AXB-chr(0-255)-][XBCD][EFGH][IJKL][MN~pad~~pad~]
+we compare each iteration with the kept ctext from above
+if the first block matches, we know that the third oracle added character is one of the values,
+in this instance C
 
+# pass 3 - block 0
+we feed in "" and know the next chars are XBC so oracle encrypts
+[XBCD][EFGH][IJKL][MN~pad~~pad~]  <- note, 1 block less - would be a full padded block otherwise
+we keep this ciphertext for comparison
+then we feed in "XBC-chr(0-255)-" so oracle encrypts:
+[XBC-chr(0-255)-][XBCD][EFGH][IJKL][MN~pad~~pad~]
+we compare each iteration with the kept ctext from above
+if the first block matches, we know that the fourth oracle added character is one of the values,
+in this instance D
+######
+## we now know the first block in entirety - onto the second block
+######
+# pass 0 - block 1
+so we feed in "AAA" so oracle encrypts:
+[AAAX][BCDE][FGHI][JKLM][N~pad~~pad~~pad~]
+note that we are focussing attention on the second block now
+we know from this 'new' second block that the first 3 chars are "BCD"
+we keep this ciphertext for comparison
+then we feed in "BCD-chr(0-255)-" so oracle encrypts:
+[BCD-chr(0-255)-][XBCD][EFGH][IJKL][MN~pad~~pad~]
+we compare each iteration with the kept ctext from above
+if the first block of this matches the second block above, we know that the 5th oracle added character is
+in this instance E
+
+and repeat
+```

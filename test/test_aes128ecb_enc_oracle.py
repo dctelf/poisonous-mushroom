@@ -139,4 +139,5 @@ class TestAes128ecb_enc_oracle(TestCase):
                         break
                     else:
                         continue
+
         print(ptext)
