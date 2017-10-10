@@ -177,3 +177,24 @@ def ba_pkcs7_pad(input_ba, blocklen):
     for i in range(num_pad_bytes): pad_bytes.append(num_pad_bytes)
 
     return input_ba + pad_bytes
+
+def ba_pkcs7_remove(input_ba, blocklen):
+    # not entirely sure this is the correct approach
+    # but, if the string is not valid pkcs7 padded, just return the string again
+    # that is, don't presume that an incorrecrltly padded string is an error
+    # there's no such thing as a "wrong" string, a set of trailing integer bytes may be correct
+    # but may not conform to pkcs7 - we don't assume any error conditions
+
+    input_ba_len = len(input_ba)
+    last_byte = input_ba[-1:][0]
+    if last_byte < blocklen:
+        for i in input_ba[-(last_byte):]:
+            if i != last_byte:
+                # not pkcs7 padded, there should be 'last_byte' counts of the padding byte
+                return input_ba
+        # if we got here, we know that the string has valid pkcs7 padding, so remove it
+        op_ba = bytearray()
+        for i in range(blocklen - last_byte):
+            op_ba.append(input_ba[i])
+        return op_ba
+    else: return input_ba
