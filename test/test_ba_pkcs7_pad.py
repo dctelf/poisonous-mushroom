@@ -23,7 +23,7 @@ class TestBa_pkcs7_pad(TestCase):
 
         test_str = "abc123"
         test_ba = bytearray(test_str, 'utf-8')
-        blocklen =6
+        blocklen = 4
         print(test_ba)
         result_ba = stringmanip.ba_pkcs7_pad(test_ba, blocklen)
         print(result_ba)

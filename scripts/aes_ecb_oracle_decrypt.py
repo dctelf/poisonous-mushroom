@@ -5,7 +5,7 @@ import os
 import sys
 sys.path.insert(0, os.path.abspath('..'))
 
-from cryptochallenge import config, ciphers
+from cryptochallenge import config, ciphers, stringmanip
 
 
 def main():
@@ -138,7 +138,11 @@ def main():
                 else:
                     continue
 
-    print(ptext)
+    # this isn't as clear cut as first expected - the ptext returned is not necessarly a multiple of blocklen
+    # this is due to the sliding window approach - the padding becomes variable as the text into the oracle
+    # varies in lengths
+    unpad_ptext = stringmanip.ba_pkcs7_remove(ptext, blocklen)
+    print(unpad_ptext)
 
 
 

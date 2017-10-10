@@ -186,6 +186,9 @@ def ba_pkcs7_remove(input_ba, blocklen):
     # but may not conform to pkcs7 - we don't assume any error conditions
 
     input_ba_len = len(input_ba)
+    # check to make sure the string is a multiple of blocklen length
+    if input_ba_len % blocklen != 0:
+        return input_ba
     last_byte = input_ba[-1:][0]
     if last_byte < blocklen:
         for i in input_ba[-(last_byte):]:
@@ -194,7 +197,7 @@ def ba_pkcs7_remove(input_ba, blocklen):
                 return input_ba
         # if we got here, we know that the string has valid pkcs7 padding, so remove it
         op_ba = bytearray()
-        for i in range(blocklen - last_byte):
+        for i in range(input_ba_len - last_byte):
             op_ba.append(input_ba[i])
         return op_ba
     else: return input_ba
