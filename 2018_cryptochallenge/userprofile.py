@@ -32,6 +32,23 @@ def profile_for(email):
 
     return obj
 
+def admin_profile_for(email):
+    # going to intentionally not try to validate the string passed in any way as an email address
+    # will escape = and & chars though
+
+    escape_email = email.replace("&", "%26").replace("=","%3D")
+
+    uid = "10"
+    role = "admin"
+
+    obj = {
+        "email": escape_email,
+        "uid": uid,
+        "role": role
+    }
+
+    return obj
+
 
 def kvbuild(obj):
     # fucntion to collapse a dictionary into an ampersand joined set of k=v strings
@@ -39,6 +56,22 @@ def kvbuild(obj):
     for keyval in obj.items():
         pairs.append("=".join(keyval))
     return "&".join(pairs)
+
+def admin_enc_profile_for(email):
+    prof_str = kvbuild(admin_profile_for(email))
+    return profile_encrypt(prof_str)
+
+def enc_profile_for(email):
+    prof_str = kvbuild(profile_for(email))
+    return profile_encrypt(prof_str)
+
+def dec_profile_for(encstr):
+    profstr_bytes = profile_decrypt(encstr)
+    unpad_profbytes = stringmanip.ba_pkcs7_remove(profstr_bytes, 16)
+    print(unpad_profbytes)
+    plain_str = stringmanip.bytearrayToUTF8Str(unpad_profbytes)
+    profobj = kvparse(plain_str)
+    return profobj
 
 def profile_encrypt(profile_str):
 
@@ -50,7 +83,9 @@ def profile_encrypt(profile_str):
 
     return encstr
 
+
 def profile_decrypt(str_bytes):
 
-    plain_str = ciphers.my_ba_aesecb128_dec(str_bytes, config.oracle_enc_key)
-    return plain_str
+    plain_bytes = ciphers.my_ba_aesecb128_dec(str_bytes, config.oracle_enc_key)
+
+    return plain_bytes

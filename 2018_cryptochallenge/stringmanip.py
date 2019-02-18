@@ -170,21 +170,20 @@ def bytearrayToUTF8Str(input_ba):
 
 
 def ba_pkcs7_pad(input_ba, blocklen):
+    # there's a mistake in here....
+    # pkcs#7 padding always appends >= 1 byte of padding - that is;
+    # if len(input_ptext) == blocklen => padding length == blocklen
     input_ba_len = len(input_ba)
     num_pad_bytes = blocklen - (input_ba_len % blocklen)
-    if num_pad_bytes == blocklen: num_pad_bytes = 0
+    if num_pad_bytes == blocklen: num_pad_bytes = 16
     pad_bytes = bytearray()
     for i in range(num_pad_bytes): pad_bytes.append(num_pad_bytes)
 
     return input_ba + pad_bytes
 
 def ba_pkcs7_remove(input_ba, blocklen):
-    # not entirely sure this is the correct approach
-    # but, if the string is not valid pkcs7 padded, just return the string again
-    # that is, don't presume that an incorrecrltly padded string is an error
-    # there's no such thing as a "wrong" string, a set of trailing integer bytes may be correct
-    # but may not conform to pkcs7 - we don't assume any error conditions
-
+    # as above, original implementation had no means to determine "correctness" of padding
+    # having updated the pad addition method above, need to
     input_ba_len = len(input_ba)
     # check to make sure the string is a multiple of blocklen length
     if input_ba_len % blocklen != 0:

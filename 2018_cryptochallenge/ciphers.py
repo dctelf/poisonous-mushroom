@@ -203,6 +203,7 @@ def detect_aes128_ecbcbc():
     test_ba = bytearray(test_str, 'utf-8')
 
     print(test_ba)
+    print(test_ba)
 
     for i in range(100):
         ctext = aes128_encryption_oracle(test_ba)
@@ -245,5 +246,25 @@ def aes256ecb_enc_oracle(ba_ptext):
     pkcs_padded = stringmanip.ba_pkcs7_pad(ba_ptext, 32)
 
     ctext = my_ba_aesecb256_enc(pkcs_padded, ba_key)
+
+    return ctext
+
+def aes128ecb_pre_post_oracle(ba_ptext):
+
+    ba_key = config.oracle_enc_key
+    ba_prefix = bytearray(config.rand_prefix, 'utf-8')
+
+    given_b64_suffix = "Um9sbGluJyBpbiBteSA1LjAKV2l0aCBteSByYWctdG9wIGRvd" \
+                        "24gc28gbXkgaGFpciBjYW4gYmxvdwpUaGUgZ2lybGllcyBvbi" \
+                        "BzdGFuZGJ5IHdhdmluZyBqdXN0IHRvIHNheSBoaQpEaWQgeW9" \
+                        "1IHN0b3A/IE5vLCBJIGp1c3QgZHJvdmUgYnkK"
+
+    ba_suffix = stringmanip.base64ToBytearray(given_b64_suffix)
+
+    ba_ptext = ba_prefix + ba_ptext + ba_suffix
+
+    pkcs_padded = stringmanip.ba_pkcs7_pad(ba_ptext, 16)
+
+    ctext = my_ba_aesecb128_enc(pkcs_padded, ba_key)
 
     return ctext

@@ -139,3 +139,16 @@ in this instance E
 
 and repeat
 ```
+
+## <a name="challenge13" /> ECB Cut and paster
+
+[challenge 13](https://cryptopals.com/sets/2/challenges/13)
+
+Parse a key, val pair string into a data structure object
+write a "profile for" method that gives a data structure back when given an email address
+write a method to convert the data struct into a k, v pair string
+generate a random AES key and encrypt the profile under that key and return the ctext
+wrap all this up in a enc_profile_for() method
+
+
+### Approach:

@@ -11,17 +11,21 @@ Should produce:
 SSdtIGtpbGxpbmcgeW91ciBicmFpbiBsaWtlIGEgcG9pc29ub3VzIG11c2hyb29t
 ```
 
-### Approach:
+### Implementation:
 
-* Top-level script "conv-hex-to-b64.py" taking single cmd line option of a hex string and returning to stdout the base64 encoded string
+* "challenges/1.py" taking single cmd line option of a hex string  and returning to stdout the base64 encoded string
 * A new module called stringmanip providing string manipulation methods;
     * hexStringToByteArray()
     * bytearrayToBase64()
     * hexToBase64()
+
+### Tests
+
 * A suite of tests for each method validating these against the standard python methods
 
-An interesting note on b64 conversion on the last 3 byte/4 word padded conversion
+### Notes
 
+An interesting note on b64 conversion on the last 3 byte/4 word padded conversion
 [b64note](b64note.md)
 
 ## <a name="challenge2" /> Fixed XOR
